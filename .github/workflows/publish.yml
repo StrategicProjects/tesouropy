@@ -1,0 +1,52 @@
+name: Publish to PyPI
+
+# Publishes to PyPI via OIDC Trusted Publishing — no API token stored.
+# Configure the trusted publisher once at:
+#   https://pypi.org/manage/account/publishing/
+# with: owner=StrategicProjects, repo=tesouropy, workflow=publish.yml,
+#        environment=pypi
+#
+# Then publish by creating a GitHub Release (or pushing a v* tag).
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build sdist and wheel
+        run: uv build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/tesouropy/
+    permissions:
+      id-token: write  # required for OIDC Trusted Publishing
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

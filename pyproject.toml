@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tesouropy"
+version = "0.1.0"
+description = "Access Brazilian National Treasury open-data APIs (SICONFI, CUSTOS, SADIPEM, Transferencias, SIORG, SIOPE)"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Andre Leite", email = "leite@castlab.org" },
+    { name = "Marcos Wasilew", email = "marcos.wasilew@gmail.com" },
+    { name = "Hugo Vasconcelos", email = "hugo.vasconcelos@ufpe.br" },
+    { name = "Carlos Amorin", email = "carlos.agaf@ufpe.br" },
+    { name = "Diogo Bezerra", email = "diogo.bezerra@ufpe.br" },
+    { name = "Tiago Pereira", email = "tiago.pereira@tesouro.gov.br" },
+    { name = "Fernando Barbalho", email = "fbarbalho@gmail.com" },
+]
+maintainers = [
+    { name = "Andre Leite", email = "leite@castlab.org" },
+]
+keywords = [
+    "brazil", "treasury", "tesouro-nacional", "open-data", "siconfi",
+    "sadipem", "siope", "siorg", "public-finance", "fiscal", "polars",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
+dependencies = [
+    "polars>=0.20",
+    "requests>=2.28",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "responses>=0.23",
+]
+
+[project.urls]
+Homepage = "https://github.com/StrategicProjects/tesouropy"
+Repository = "https://github.com/StrategicProjects/tesouropy"
+Issues = "https://github.com/StrategicProjects/tesouropy/issues"
+"R package (tesouror)" = "https://github.com/StrategicProjects/tesouror"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tesouropy"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/README.md",
+    "/LICENSE",
+    "/CHANGELOG.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

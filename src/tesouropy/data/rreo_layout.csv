@@ -1,0 +1,8 @@
+topic,regime,first_year,last_year,co_esfera,no_anexo,conta_match,indicador
+previdencia,civil_rpps,2015,2022,U,RREO-Anexo 04.1,resultado previdenciario rpps civis,resultado_previdenciario_civil
+previdencia,civil_rpps,2023,2099,U,RREO-Anexo 04.2,resultado previdenciario rpps civis,resultado_previdenciario_civil
+previdencia,fcdf,2015,2022,U,RREO-Anexo 04.1,resultado previdenciario - fcdf,resultado_previdenciario_fcdf
+previdencia,fcdf,2023,2099,U,RREO-Anexo 04.2,resultado previdenciario - fcdf,resultado_previdenciario_fcdf
+previdencia,militar,2015,2099,U,RREO-Anexo 04.2,resultado total - militares inativos,resultado_militares_inativos
+previdencia,rgps,2015,2022,U,RREO-Anexo 04.3 - RGPS,resultado previdenciario rgps,resultado_previdenciario_rgps
+previdencia,rgps,2023,2099,U,RREO-Anexo 04.4 - RGPS,resultado previdenciario rgps,resultado_previdenciario_rgps
