@@ -1,7 +1,8 @@
 # tesouropy
 
-[![PyPI](https://img.shields.io/pypi/v/tesouropy.svg)](https://pypi.org/project/tesouropy/)
-[![Python versions](https://img.shields.io/pypi/pyversions/tesouropy.svg)](https://pypi.org/project/tesouropy/)
+[![PyPI](https://img.shields.io/pypi/v/tesouropy?cacheSeconds=600)](https://pypi.org/project/tesouropy/)
+[![Python versions](https://img.shields.io/pypi/pyversions/tesouropy?cacheSeconds=600)](https://pypi.org/project/tesouropy/)
+[![CI](https://github.com/StrategicProjects/tesouropy/actions/workflows/ci.yml/badge.svg)](https://github.com/StrategicProjects/tesouropy/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-strategicprojects.github.io-teal)](https://strategicprojects.github.io/tesouropy/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
