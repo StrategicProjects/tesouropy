@@ -50,6 +50,11 @@ test = [
     "pytest>=7.0",
     "responses>=0.23",
 ]
+docs = [
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.24",
+    "black>=24.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/StrategicProjects/tesouropy"

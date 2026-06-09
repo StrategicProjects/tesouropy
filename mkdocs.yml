@@ -1,0 +1,75 @@
+site_name: tesouropy
+site_description: Access Brazilian National Treasury open-data APIs from Python
+site_url: https://strategicprojects.github.io/tesouropy/
+repo_url: https://github.com/StrategicProjects/tesouropy
+repo_name: StrategicProjects/tesouropy
+edit_uri: edit/main/docs/
+copyright: MIT &copy; tesouropy authors
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.tabs
+    - content.code.copy
+    - search.suggest
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: numpy
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            members_order: source
+            separate_signature: true
+            show_signature_annotations: true
+            heading_level: 3
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - API guides:
+      - SICONFI — Fiscal data: guides/siconfi.md
+      - CUSTOS — Federal costs: guides/custos.md
+      - SADIPEM — Public debt: guides/sadipem.md
+      - SIORG — Org structure: guides/siorg.md
+      - Transferências Constitucionais: guides/transferencias.md
+      - SIOPE — Education spending: guides/siope.md
+  - How-to:
+      - RREO longitudinal (layout drift): how-to/rreo-longitudinal.md
+  - Applications:
+      - Transferências p/ municípios de PE: applications/transferencias-pernambuco.md
+  - Reference: reference.md

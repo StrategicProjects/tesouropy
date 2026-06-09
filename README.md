@@ -2,7 +2,10 @@
 
 [![PyPI](https://img.shields.io/pypi/v/tesouropy.svg)](https://pypi.org/project/tesouropy/)
 [![Python versions](https://img.shields.io/pypi/pyversions/tesouropy.svg)](https://pypi.org/project/tesouropy/)
+[![Docs](https://img.shields.io/badge/docs-strategicprojects.github.io-teal)](https://strategicprojects.github.io/tesouropy/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+📖 **Documentation & guides: <https://strategicprojects.github.io/tesouropy/>**
 
 **Access Brazilian National Treasury open-data APIs from Python.**
 
