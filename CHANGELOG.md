@@ -4,6 +4,38 @@ All notable changes to **tesouropy** are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] — 2026-06-25
+
+Parity with `tesouror` 0.3.0.
+
+### Changed
+
+- **Clearer SICONFI function names.** The single-entity report getters were
+  renamed to make their scope explicit (e.g. `get_rreo` → `get_rreo_ufs`),
+  and the state-wide municipality sweeps moved from the `_for_state` suffix to
+  `_municipios` / `_municipalities` (PT / EN). The full set:
+  `get_rreo`/`get_dca`/`get_rgf` → `*_ufs` (plus the English aliases
+  `get_budget_report_ufs`, `get_annual_accounts_ufs`, `get_fiscal_report_ufs`);
+  `get_*_for_state` → `get_*_municipios` / `get_*_municipalities`.
+
+### Added
+
+- **SIOPE entity-type filter.** All `get_siope_*` functions gained an optional
+  `tipo` (`type` in the English aliases) argument that applies a server-side
+  `DS_TIPO` filter, so you can fetch only the state-level row (`tipo="estado"`)
+  or only the municipalities (`tipo="municipio"`) instead of the whole UF
+  payload. Accepts PT/EN synonyms (accent- and case-insensitive) and combines
+  with an existing `filter` via `and`.
+
+### Deprecated
+
+- The old SICONFI names (`get_rreo`, `get_dca`, `get_rgf`, `get_budget_report`,
+  `get_annual_accounts`, `get_fiscal_report`, and their `_for_state` variants)
+  still work but now emit a `DeprecationWarning` and forward to the new names.
+  They will be removed in a future release.
+
+[0.2.0]: https://github.com/StrategicProjects/tesouropy/releases/tag/v0.2.0
+
 ## [0.1.0] — 2026-06-09
 
 Initial release. A Python port of the

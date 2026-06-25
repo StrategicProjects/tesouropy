@@ -52,7 +52,7 @@ for yr in range(2019, 2024):
         & (pl.col("last_year") >= yr)
     )
     frames.append(
-        tn.get_rreo(
+        tn.get_rreo_ufs(
             an_exercicio=yr, nr_periodo=6,
             co_tipo_demonstrativo="RREO",
             no_anexo=rule["no_anexo"][0],

@@ -23,14 +23,14 @@ Portuguese ones. They return identical data — pick whichever you prefer.
 
 ```python
 # Portuguese
-rreo = tn.get_rreo(
+rreo = tn.get_rreo_ufs(
     an_exercicio=2022, nr_periodo=6,
     co_tipo_demonstrativo="RREO", no_anexo="RREO-Anexo 01",
     co_esfera="E", id_ente=17,
 )
 
 # English (same call, same result)
-rreo = tn.get_budget_report(
+rreo = tn.get_budget_report_ufs(
     fiscal_year=2022, period=6,
     report_type="RREO", appendix="RREO-Anexo 01",
     sphere="E", entity_id=17,
@@ -126,7 +126,7 @@ municipality fails after all retries, the failure is recorded and the loop
 continues:
 
 ```python
-rreo_es = tn.get_rreo_for_state(
+rreo_es = tn.get_rreo_municipios(
     state_uf="ES", an_exercicio=2021, nr_periodo=6,
     co_tipo_demonstrativo="RREO", no_anexo="RREO-Anexo 01",
 )

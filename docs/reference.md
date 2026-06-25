@@ -36,3 +36,10 @@ and an English alias; both are listed below, grouped by API.
 ## RREO tidy layer
 
 ::: tesouropy.rreo_tidy
+
+## Deprecated names
+
+Renamed in 0.2.0; these still work but emit a `DeprecationWarning` and forward
+to the new names. See the SICONFI section above for the replacements.
+
+::: tesouropy.deprecated

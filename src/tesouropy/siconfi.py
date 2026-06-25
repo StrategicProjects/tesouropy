@@ -19,13 +19,13 @@ from ._core import (
 __all__ = [
     "get_entes", "get_entities",
     "get_anexos", "get_annexes",
-    "get_dca", "get_annual_accounts",
-    "get_dca_for_state", "get_annual_accounts_for_state",
+    "get_dca_ufs", "get_annual_accounts_ufs",
+    "get_dca_municipios", "get_annual_accounts_municipalities",
     "get_extrato", "get_delivery_status",
-    "get_rreo", "get_budget_report",
-    "get_rreo_for_state", "get_budget_report_for_state",
-    "get_rgf", "get_fiscal_report",
-    "get_rgf_for_state", "get_fiscal_report_for_state",
+    "get_rreo_ufs", "get_budget_report_ufs",
+    "get_rreo_municipios", "get_budget_report_municipalities",
+    "get_rgf_ufs", "get_fiscal_report_ufs",
+    "get_rgf_municipios", "get_fiscal_report_municipalities",
     "get_msc_controle", "get_msc_control",
     "get_msc_orcamentaria", "get_msc_budget",
     "get_msc_patrimonial", "get_msc_equity",
@@ -70,10 +70,10 @@ def get_annexes(use_cache=True, verbose=False, page_size=None, max_rows=INF):
                       max_rows=max_rows)
 
 
-# -- get_dca / get_annual_accounts --------------------------------------------
+# -- get_dca_ufs / get_annual_accounts_ufs --------------------------------------------
 
 
-def get_dca(an_exercicio, id_ente, no_anexo=None, use_cache=True, verbose=False,
+def get_dca_ufs(an_exercicio, id_ente, no_anexo=None, use_cache=True, verbose=False,
             page_size=None, max_rows=INF):
     """Get Annual Accounts Declaration (DCA) data for an entity and fiscal year.
 
@@ -97,19 +97,19 @@ def get_dca(an_exercicio, id_ente, no_anexo=None, use_cache=True, verbose=False,
                              max_rows=max_rows)
 
 
-def get_annual_accounts(fiscal_year, entity_id, appendix=None, use_cache=True,
+def get_annual_accounts_ufs(fiscal_year, entity_id, appendix=None, use_cache=True,
                         verbose=False, page_size=None, max_rows=INF):
-    """English alias for :func:`get_dca`."""
+    """English alias for :func:`get_dca_ufs`."""
     check_required(fiscal_year=fiscal_year, entity_id=entity_id)
-    return get_dca(an_exercicio=fiscal_year, id_ente=entity_id,
+    return get_dca_ufs(an_exercicio=fiscal_year, id_ente=entity_id,
                    no_anexo=appendix, use_cache=use_cache, verbose=verbose,
                    page_size=page_size, max_rows=max_rows)
 
 
-# -- get_dca_for_state / get_annual_accounts_for_state ------------------------
+# -- get_dca_municipios / get_annual_accounts_municipalities ------------------------
 
 
-def get_dca_for_state(state_uf, an_exercicio, no_anexo=None,
+def get_dca_municipios(state_uf, an_exercicio, no_anexo=None,
                       include_capital=True, on_error="warn", use_cache=True,
                       verbose=False, page_size=None, max_rows=INF):
     """Get DCA data for every municipality of a Brazilian state (fault tolerant).
@@ -131,17 +131,17 @@ def get_dca_for_state(state_uf, an_exercicio, no_anexo=None,
         }
         for id_ente in munis["cod_ibge"].to_list()
     ]
-    return tnr_loop(get_dca, param_list, id_key="id_ente", on_error=on_error,
+    return tnr_loop(get_dca_ufs, param_list, id_key="id_ente", on_error=on_error,
                     progress_label=f"DCA {state_uf}")
 
 
-def get_annual_accounts_for_state(state_uf, fiscal_year, appendix=None,
+def get_annual_accounts_municipalities(state_uf, fiscal_year, appendix=None,
                                   include_capital=True, on_error="warn",
                                   use_cache=True, verbose=False, page_size=None,
                                   max_rows=INF):
-    """English alias for :func:`get_dca_for_state`."""
+    """English alias for :func:`get_dca_municipios`."""
     check_required(state_uf=state_uf, fiscal_year=fiscal_year)
-    return get_dca_for_state(state_uf=state_uf, an_exercicio=fiscal_year,
+    return get_dca_municipios(state_uf=state_uf, an_exercicio=fiscal_year,
                              no_anexo=appendix, include_capital=include_capital,
                              on_error=on_error, use_cache=use_cache,
                              verbose=verbose, page_size=page_size,
@@ -170,10 +170,10 @@ def get_delivery_status(entity_id, year, use_cache=True, verbose=False,
                        max_rows=max_rows)
 
 
-# -- get_rreo / get_budget_report ---------------------------------------------
+# -- get_rreo_ufs / get_budget_report_ufs ---------------------------------------------
 
 
-def get_rreo(an_exercicio, nr_periodo, co_tipo_demonstrativo, no_anexo, id_ente,
+def get_rreo_ufs(an_exercicio, nr_periodo, co_tipo_demonstrativo, no_anexo, id_ente,
              co_esfera=None, use_cache=True, verbose=False, page_size=None,
              max_rows=INF):
     """Get Budget Execution Summary Report (RREO) data.
@@ -198,23 +198,23 @@ def get_rreo(an_exercicio, nr_periodo, co_tipo_demonstrativo, no_anexo, id_ente,
                              max_rows=max_rows)
 
 
-def get_budget_report(fiscal_year, period, report_type, appendix, entity_id,
+def get_budget_report_ufs(fiscal_year, period, report_type, appendix, entity_id,
                       sphere=None, use_cache=True, verbose=False, page_size=None,
                       max_rows=INF):
-    """English alias for :func:`get_rreo`."""
+    """English alias for :func:`get_rreo_ufs`."""
     check_required(fiscal_year=fiscal_year, period=period,
                    report_type=report_type, appendix=appendix,
                    entity_id=entity_id)
-    return get_rreo(an_exercicio=fiscal_year, nr_periodo=period,
+    return get_rreo_ufs(an_exercicio=fiscal_year, nr_periodo=period,
                     co_tipo_demonstrativo=report_type, no_anexo=appendix,
                     id_ente=entity_id, co_esfera=sphere, use_cache=use_cache,
                     verbose=verbose, page_size=page_size, max_rows=max_rows)
 
 
-# -- get_rreo_for_state / get_budget_report_for_state -------------------------
+# -- get_rreo_municipios / get_budget_report_municipalities -------------------------
 
 
-def get_rreo_for_state(state_uf, an_exercicio, nr_periodo,
+def get_rreo_municipios(state_uf, an_exercicio, nr_periodo,
                        co_tipo_demonstrativo, no_anexo, include_capital=True,
                        on_error="warn", use_cache=True, verbose=False,
                        page_size=None, max_rows=INF):
@@ -243,18 +243,18 @@ def get_rreo_for_state(state_uf, an_exercicio, nr_periodo,
         }
         for id_ente in munis["cod_ibge"].to_list()
     ]
-    return tnr_loop(get_rreo, param_list, id_key="id_ente", on_error=on_error,
+    return tnr_loop(get_rreo_ufs, param_list, id_key="id_ente", on_error=on_error,
                     progress_label=f"RREO {state_uf}")
 
 
-def get_budget_report_for_state(state_uf, fiscal_year, period, report_type,
+def get_budget_report_municipalities(state_uf, fiscal_year, period, report_type,
                                 appendix, include_capital=True, on_error="warn",
                                 use_cache=True, verbose=False, page_size=None,
                                 max_rows=INF):
-    """English alias for :func:`get_rreo_for_state`."""
+    """English alias for :func:`get_rreo_municipios`."""
     check_required(state_uf=state_uf, fiscal_year=fiscal_year, period=period,
                    report_type=report_type, appendix=appendix)
-    return get_rreo_for_state(state_uf=state_uf, an_exercicio=fiscal_year,
+    return get_rreo_municipios(state_uf=state_uf, an_exercicio=fiscal_year,
                               nr_periodo=period,
                               co_tipo_demonstrativo=report_type,
                               no_anexo=appendix,
@@ -263,10 +263,10 @@ def get_budget_report_for_state(state_uf, fiscal_year, period, report_type,
                               page_size=page_size, max_rows=max_rows)
 
 
-# -- get_rgf / get_fiscal_report ----------------------------------------------
+# -- get_rgf_ufs / get_fiscal_report_ufs ----------------------------------------------
 
 
-def get_rgf(an_exercicio, in_periodicidade, nr_periodo, co_tipo_demonstrativo,
+def get_rgf_ufs(an_exercicio, in_periodicidade, nr_periodo, co_tipo_demonstrativo,
             no_anexo, co_esfera, co_poder, id_ente, use_cache=True,
             verbose=False, page_size=None, max_rows=INF):
     """Get Fiscal Management Report (RGF) data.
@@ -295,24 +295,24 @@ def get_rgf(an_exercicio, in_periodicidade, nr_periodo, co_tipo_demonstrativo,
                              max_rows=max_rows)
 
 
-def get_fiscal_report(fiscal_year, periodicity, period, report_type, appendix,
+def get_fiscal_report_ufs(fiscal_year, periodicity, period, report_type, appendix,
                       sphere, branch, entity_id, use_cache=True, verbose=False,
                       page_size=None, max_rows=INF):
-    """English alias for :func:`get_rgf`."""
+    """English alias for :func:`get_rgf_ufs`."""
     check_required(fiscal_year=fiscal_year, periodicity=periodicity,
                    period=period, report_type=report_type, appendix=appendix,
                    sphere=sphere, branch=branch, entity_id=entity_id)
-    return get_rgf(an_exercicio=fiscal_year, in_periodicidade=periodicity,
+    return get_rgf_ufs(an_exercicio=fiscal_year, in_periodicidade=periodicity,
                    nr_periodo=period, co_tipo_demonstrativo=report_type,
                    no_anexo=appendix, co_esfera=sphere, co_poder=branch,
                    id_ente=entity_id, use_cache=use_cache, verbose=verbose,
                    page_size=page_size, max_rows=max_rows)
 
 
-# -- get_rgf_for_state / get_fiscal_report_for_state --------------------------
+# -- get_rgf_municipios / get_fiscal_report_municipalities --------------------------
 
 
-def get_rgf_for_state(state_uf, an_exercicio, in_periodicidade, nr_periodo,
+def get_rgf_municipios(state_uf, an_exercicio, in_periodicidade, nr_periodo,
                       co_tipo_demonstrativo, no_anexo, co_poder,
                       include_capital=True, on_error="warn", use_cache=True,
                       verbose=False, page_size=None, max_rows=INF):
@@ -340,20 +340,20 @@ def get_rgf_for_state(state_uf, an_exercicio, in_periodicidade, nr_periodo,
         }
         for id_ente in munis["cod_ibge"].to_list()
     ]
-    return tnr_loop(get_rgf, param_list, id_key="id_ente", on_error=on_error,
+    return tnr_loop(get_rgf_ufs, param_list, id_key="id_ente", on_error=on_error,
                     progress_label=f"RGF {state_uf}")
 
 
-def get_fiscal_report_for_state(state_uf, fiscal_year, periodicity, period,
+def get_fiscal_report_municipalities(state_uf, fiscal_year, periodicity, period,
                                 report_type, appendix, branch,
                                 include_capital=True, on_error="warn",
                                 use_cache=True, verbose=False, page_size=None,
                                 max_rows=INF):
-    """English alias for :func:`get_rgf_for_state`."""
+    """English alias for :func:`get_rgf_municipios`."""
     check_required(state_uf=state_uf, fiscal_year=fiscal_year,
                    periodicity=periodicity, period=period,
                    report_type=report_type, appendix=appendix, branch=branch)
-    return get_rgf_for_state(state_uf=state_uf, an_exercicio=fiscal_year,
+    return get_rgf_municipios(state_uf=state_uf, an_exercicio=fiscal_year,
                              in_periodicidade=periodicity, nr_periodo=period,
                              co_tipo_demonstrativo=report_type,
                              no_anexo=appendix, co_poder=branch,
