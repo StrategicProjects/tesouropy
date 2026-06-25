@@ -50,31 +50,45 @@ from .sadipem import (
     get_res_cdp,
     get_res_cronograma_pagamentos,
 )
-from .siconfi import (
-    get_anexos,
-    get_annexes,
+from .deprecated import (
     get_annual_accounts,
     get_annual_accounts_for_state,
     get_budget_report,
     get_budget_report_for_state,
     get_dca,
     get_dca_for_state,
+    get_fiscal_report,
+    get_fiscal_report_for_state,
+    get_rgf,
+    get_rgf_for_state,
+    get_rreo,
+    get_rreo_for_state,
+)
+from .siconfi import (
+    get_anexos,
+    get_annexes,
+    get_annual_accounts_municipalities,
+    get_annual_accounts_ufs,
+    get_budget_report_municipalities,
+    get_budget_report_ufs,
+    get_dca_municipios,
+    get_dca_ufs,
     get_delivery_status,
     get_entes,
     get_entities,
     get_extrato,
-    get_fiscal_report,
-    get_fiscal_report_for_state,
+    get_fiscal_report_municipalities,
+    get_fiscal_report_ufs,
     get_msc_budget,
     get_msc_control,
     get_msc_controle,
     get_msc_equity,
     get_msc_orcamentaria,
     get_msc_patrimonial,
-    get_rgf,
-    get_rgf_for_state,
-    get_rreo,
-    get_rreo_for_state,
+    get_rgf_municipios,
+    get_rgf_ufs,
+    get_rreo_municipios,
+    get_rreo_ufs,
 )
 from .siope import (
     get_siope_compensation,
@@ -103,7 +117,7 @@ from .siorg import (
     get_siorg_unit,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "__version__",
@@ -113,16 +127,23 @@ __all__ = [
     # SICONFI
     "get_entes", "get_entities",
     "get_anexos", "get_annexes",
+    "get_dca_ufs", "get_annual_accounts_ufs",
+    "get_dca_municipios", "get_annual_accounts_municipalities",
+    "get_extrato", "get_delivery_status",
+    "get_rreo_ufs", "get_budget_report_ufs",
+    "get_rreo_municipios", "get_budget_report_municipalities",
+    "get_rgf_ufs", "get_fiscal_report_ufs",
+    "get_rgf_municipios", "get_fiscal_report_municipalities",
+    "get_msc_controle", "get_msc_control",
+    "get_msc_orcamentaria", "get_msc_budget",
+    "get_msc_patrimonial", "get_msc_equity",
+    # SICONFI (deprecated names, kept for backward compatibility)
     "get_dca", "get_annual_accounts",
     "get_dca_for_state", "get_annual_accounts_for_state",
-    "get_extrato", "get_delivery_status",
     "get_rreo", "get_budget_report",
     "get_rreo_for_state", "get_budget_report_for_state",
     "get_rgf", "get_fiscal_report",
     "get_rgf_for_state", "get_fiscal_report_for_state",
-    "get_msc_controle", "get_msc_control",
-    "get_msc_orcamentaria", "get_msc_budget",
-    "get_msc_patrimonial", "get_msc_equity",
     # CUSTOS
     "get_custos_pessoal_ativo", "get_costs_active_staff",
     "get_custos_pessoal_inativo", "get_costs_retired_staff",

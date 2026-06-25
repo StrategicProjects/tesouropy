@@ -44,7 +44,7 @@ import tesouropy as tn
 
 entes = tn.get_entes()                       # all government entities
 
-rreo = tn.get_budget_report(                 # English alias of get_rreo
+rreo = tn.get_budget_report_ufs(                 # English alias of get_rreo_ufs
     fiscal_year=2022, period=6,
     report_type="RREO", appendix="RREO-Anexo 01",
     sphere="E", entity_id=17,

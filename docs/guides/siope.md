@@ -42,6 +42,25 @@ resumo = tn.get_siope_dados_gerais(
 )
 ```
 
+### Filter by entity type (`tipo` / `type`)
+
+The most common reason to narrow a SIOPE call is to keep only the state-level
+row or only the municipalities. Pass `tipo` (`type` in the English aliases)
+instead of writing the `DS_TIPO` OData clause by hand:
+
+```python
+# Only the state-level (UF) row
+estado = tn.get_siope_dados_gerais(ano=2023, periodo=6, uf="PE", tipo="estado")
+
+# Only the municipalities (English alias)
+munis = tn.get_siope_general_data(year=2023, period=6, state="PE",
+                                  type="municipality")
+```
+
+`tipo` accepts PT/EN synonyms (`"estado"`/`"uf"`/`"state"`,
+`"municipio"`/`"municipality"`), is accent- and case-insensitive, and combines
+with an existing `filter` via `and`.
+
 ## Endpoints
 
 ```python

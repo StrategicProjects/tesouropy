@@ -98,7 +98,7 @@ def rreo_normalize_columns(data: pl.DataFrame) -> pl.DataFrame:
 def tidy_rreo(data: pl.DataFrame, topic: str, regime=None) -> pl.DataFrame:
     """Tidy an RREO DataFrame by topic, reconciling layout drift across years.
 
-    Filters ``data`` (typically from :func:`tesouropy.get_rreo`) to the rows
+    Filters ``data`` (typically from :func:`tesouropy.get_rreo_ufs`) to the rows
     matching a known indicator for ``topic`` (and optionally ``regime``), using
     the rules in :func:`rreo_layout`. Accounts are matched on a year-stable,
     accent-folded key, so the same call returns a coherent series across years
@@ -112,7 +112,7 @@ def tidy_rreo(data: pl.DataFrame, topic: str, regime=None) -> pl.DataFrame:
     if missing:
         raise TesouroError(
             f"Input is missing required column(s): {', '.join(missing)}. "
-            "Did you pass the raw output of get_rreo()?"
+            "Did you pass the raw output of get_rreo_ufs()?"
         )
 
     layout = _load_rreo_layout().filter(pl.col("topic") == topic)

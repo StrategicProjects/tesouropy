@@ -47,14 +47,14 @@ Portuguese ones. Pick whichever you prefer — they return identical data.
 import tesouropy as tn
 
 # Portuguese
-rreo = tn.get_rreo(
+rreo = tn.get_rreo_ufs(
     an_exercicio=2022, nr_periodo=6,
     co_tipo_demonstrativo="RREO", no_anexo="RREO-Anexo 01",
     co_esfera="E", id_ente=17,
 )
 
 # English (same call)
-rreo = tn.get_budget_report(
+rreo = tn.get_budget_report_ufs(
     fiscal_year=2022, period=6,
     report_type="RREO", appendix="RREO-Anexo 01",
     sphere="E", entity_id=17,
@@ -70,7 +70,7 @@ import tesouropy as tn
 entes = tn.get_entes()
 
 # Fiscal Management Report (RGF) for a state
-rgf = tn.get_rgf(
+rgf = tn.get_rgf_ufs(
     an_exercicio=2022, in_periodicidade="Q", nr_periodo=3,
     co_tipo_demonstrativo="RGF", no_anexo="RGF-Anexo 01",
     co_esfera="E", co_poder="E", id_ente=17,
@@ -96,7 +96,7 @@ with fault tolerance: if a municipality call fails after all retries, the
 failure is recorded and the loop continues.
 
 ```python
-rreo_es = tn.get_rreo_for_state(
+rreo_es = tn.get_rreo_municipios(
     state_uf="ES", an_exercicio=2021, nr_periodo=6,
     co_tipo_demonstrativo="RREO", no_anexo="RREO-Anexo 01",
 )
@@ -124,7 +124,7 @@ for yr in range(2019, 2024):
         (pl.col("topic") == "previdencia") & (pl.col("regime") == "rgps")
         & (pl.col("first_year") <= yr) & (pl.col("last_year") >= yr)
     )
-    frames.append(tn.get_rreo(
+    frames.append(tn.get_rreo_ufs(
         an_exercicio=yr, nr_periodo=6, co_tipo_demonstrativo="RREO",
         no_anexo=rule["no_anexo"][0], co_esfera="U", id_ente=1,
     ))

@@ -14,7 +14,7 @@ def _last_request():
 def test_rreo_omits_none_co_esfera():
     url = _core.SICONFI_BASE_URL + "/rreo"
     responses.add(responses.GET, url, json={"items": [{"v": 1}], "hasMore": False})
-    tesouropy.get_rreo(
+    tesouropy.get_rreo_ufs(
         an_exercicio=2022, nr_periodo=6, co_tipo_demonstrativo="RREO",
         no_anexo="RREO-Anexo 01", id_ente=17,
     )
@@ -28,7 +28,7 @@ def test_rreo_omits_none_co_esfera():
 def test_budget_report_alias_maps_params():
     url = _core.SICONFI_BASE_URL + "/rreo"
     responses.add(responses.GET, url, json={"items": [{"v": 1}], "hasMore": False})
-    tesouropy.get_budget_report(
+    tesouropy.get_budget_report_ufs(
         fiscal_year=2022, period=6, report_type="RREO",
         appendix="RREO-Anexo 01", entity_id=17, sphere="E",
     )
@@ -36,6 +36,20 @@ def test_budget_report_alias_maps_params():
     assert "co_tipo_demonstrativo=RREO" in qs
     assert "co_esfera=E" in qs
     assert "id_ente=17" in qs
+
+
+@responses.activate
+def test_deprecated_get_rreo_warns_and_forwards():
+    import pytest
+
+    url = _core.SICONFI_BASE_URL + "/rreo"
+    responses.add(responses.GET, url, json={"items": [{"v": 1}], "hasMore": False})
+    with pytest.warns(DeprecationWarning, match="get_rreo_ufs"):
+        tesouropy.get_rreo(
+            an_exercicio=2022, nr_periodo=6, co_tipo_demonstrativo="RREO",
+            no_anexo="RREO-Anexo 01", id_ente=17,
+        )
+    assert "an_exercicio=2022" in _last_request().url
 
 
 @responses.activate
