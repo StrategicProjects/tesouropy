@@ -4,6 +4,19 @@ All notable changes to **tesouropy** are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] — 2026-07-14
+
+### Added
+
+- Citation metadata for archiving on Zenodo: `CITATION.cff` and `.zenodo.json`
+  (authors with affiliations, keywords, related identifiers pointing to PyPI
+  and to the origin R package `tesouror`).
+
+### Fixed
+
+- Author name spellings in the package metadata: "André Leite" (accent),
+  "Marcos Wasiliew", and "Carlos Amorim".
+
 ## [0.2.0] — 2026-06-25
 
 Parity with `tesouror` 0.3.0.

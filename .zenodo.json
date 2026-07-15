@@ -1,0 +1,58 @@
+{
+  "title": "tesouropy: access Brazilian National Treasury open-data APIs (Python)",
+  "description": "<p>tesouropy is a Python port of the R package tesouror. It provides a single, consistent interface to six open-data sources of the Brazilian National Treasury (Tesouro Nacional) and related federal government APIs — SICONFI (RREO, RGF, DCA, MSC and entity info), CUSTOS, SADIPEM, Constitutional Transfers, SIORG, and SIOPE (FNDE/MEC) — returning tidy polars DataFrames, with caching, retry, pagination, and fault-tolerant batch retrieval built in. The interface is bilingual (Portuguese/English).</p>",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Leite, André",
+      "affiliation": "Universidade Federal de Pernambuco"
+    },
+    {
+      "name": "Wasiliew, Marcos"
+    },
+    {
+      "name": "Vasconcelos, Hugo",
+      "affiliation": "Universidade Federal de Pernambuco"
+    },
+    {
+      "name": "Amorim, Carlos",
+      "affiliation": "Universidade Federal de Pernambuco"
+    },
+    {
+      "name": "Bezerra, Diogo",
+      "affiliation": "Universidade Federal de Pernambuco"
+    },
+    {
+      "name": "Pereira, Tiago"
+    },
+    {
+      "name": "Barbalho, Fernando"
+    }
+  ],
+  "keywords": [
+    "brazil",
+    "treasury",
+    "tesouro-nacional",
+    "open-data",
+    "siconfi",
+    "sadipem",
+    "siope",
+    "siorg",
+    "public-finance",
+    "fiscal",
+    "polars"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://pypi.org/project/tesouropy/",
+      "resource_type": "software"
+    },
+    {
+      "relation": "isDerivedFrom",
+      "identifier": "https://github.com/StrategicProjects/tesouror",
+      "resource_type": "software"
+    }
+  ]
+}
