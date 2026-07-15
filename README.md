@@ -5,6 +5,7 @@
 [![CI](https://github.com/StrategicProjects/tesouropy/actions/workflows/ci.yml/badge.svg)](https://github.com/StrategicProjects/tesouropy/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-strategicprojects.github.io-teal)](https://strategicprojects.github.io/tesouropy/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/1264060735.svg)](https://doi.org/10.5281/zenodo.21366337)
 
 📖 **Documentation & guides: <https://strategicprojects.github.io/tesouropy/>**
 

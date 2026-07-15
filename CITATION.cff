@@ -5,6 +5,7 @@ title: "tesouropy: access Brazilian National Treasury open-data APIs (Python)"
 version: 0.2.1
 date-released: 2026-07-14
 license: MIT
+doi: 10.5281/zenodo.21366337
 repository-code: "https://github.com/StrategicProjects/tesouropy"
 url: "https://strategicprojects.github.io/tesouropy/"
 keywords:
