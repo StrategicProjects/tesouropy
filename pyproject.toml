@@ -17,6 +17,7 @@ authors = [
     { name = "Diogo Bezerra", email = "diogo.bezerra@ufpe.br" },
     { name = "Tiago Pereira", email = "tiago.pereira@tesouro.gov.br" },
     { name = "Fernando Barbalho", email = "fbarbalho@gmail.com" },
+    { name = "Júlia Nascimento Barreto", email = "juliabarreto@gd.seplag.pe.gov.br" },
 ]
 maintainers = [
     { name = "André Leite", email = "leite@castlab.org" },
