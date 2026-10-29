@@ -114,7 +114,10 @@ you get a partial DataFrame with `result.partial == True` and
 ### Reconciling RREO layout drift across years
 
 SICONFI relabels RREO appendices and accounts over time. `tidy_rreo()` uses a
-bundled layout table to assemble a coherent series across years:
+bundled layout table to assemble a coherent series across years. Four topics
+are covered: `"previdencia"` (Anexos 04.x), `"rcl"` (Anexo 03), `"balanco"`
+(Anexo 01) and `"resultado"` (Anexo 06) — matched on year-stable label keys
+or, where labels are ambiguous, on SICONFI's stable account codes:
 
 ```python
 import polars as pl
