@@ -64,14 +64,59 @@ def test_custos_pads_org_codes():
 
 
 @responses.activate
-def test_transferencias_municipio_uses_uppercase_params():
+def test_transferencias_municipio_uses_lowercase_params_and_paginates():
+    # Server contract since 2026-09: lower-case names, singular p_municipio,
+    # paginated responses (page/pageSize); a short page is the last one.
     url = _core.TRANSFERENCIAS_BASE_URL + "/por_estado_municipio"
+    responses.add(
+        responses.GET, url,
+        json={"registros": [{"v": 1}, {"v": 2}], "page": 1, "next": "..."},
+    )
+    responses.add(
+        responses.GET, url,
+        json={"registros": [{"v": 3}], "page": 2, "next": "..."},
+    )
+    df = tesouropy.get_tc_por_municipio(
+        p_estado=17, p_municipio=[1, 2], p_ano=2023, page_size=2,
+    )
+    assert df.height == 3
+    assert len(responses.calls) == 2
+    first = responses.calls[0].request.url
+    assert "p_estado=17" in first
+    assert "p_municipio=1%3A2" in first or "p_municipio=1:2" in first
+    assert "p_ano=2023" in first
+    assert "pageSize=2" in first and "page=1" in first
+    assert "P_ESTADO" not in first and "P_MUNICIPIOS" not in first
+    assert "page=2" in responses.calls[1].request.url
+
+
+@responses.activate
+def test_transferencias_municipio_detalhe_keeps_uppercase_contract():
+    # The _detalhe endpoint kept the ORIGINAL contract: upper case,
+    # P_MUNICIPIOS in the plural, no pagination.
+    url = _core.TRANSFERENCIAS_BASE_URL + "/por_estado_municipio_detalhe"
     responses.add(responses.GET, url, json={"registros": [{"v": 1}]})
-    tesouropy.get_tc_por_municipio(p_estado=17, p_municipio=[1, 2], p_ano=2023)
+    tesouropy.get_tc_por_municipio_detalhe(p_estado=17, p_municipio=[1, 2],
+                                           p_ano=2023)
     qs = _last_request().url
     assert "P_ESTADO=17" in qs
     assert "P_MUNICIPIOS=1%3A2" in qs or "P_MUNICIPIOS=1:2" in qs
-    assert "P_ANO=2023" in qs
+    assert "page" not in qs and "pageSize" not in qs
+
+
+@responses.activate
+def test_transferencias_municipio_partial_after_first_page():
+    url = _core.TRANSFERENCIAS_BASE_URL + "/por_estado_municipio"
+    responses.add(
+        responses.GET, url,
+        json={"registros": [{"v": 1}, {"v": 2}], "next": "..."},
+    )
+    for _ in range(5):  # retried, then gives up
+        responses.add(responses.GET, url, status=500)
+    df = tesouropy.get_tc_por_municipio(p_estado=17, p_ano=2023, page_size=2)
+    assert df.height == 2
+    assert getattr(df, "partial", False) is True
+    assert getattr(df, "last_page_error", None)
 
 
 @responses.activate

@@ -24,9 +24,17 @@ tn.rreo_layout()
 ```
 
 Each row maps a topic/regime and a year range to the correct appendix
-(`no_anexo`) and a normalized account-matching key (`conta_match`). For example,
-the federal RGPS appendix moved from `RREO-Anexo 04.3 - RGPS` (up to 2022) to
-`RREO-Anexo 04.4 - RGPS` (2023+) — the table knows this.
+(`no_anexo`) and one matching key: `conta_match`, a normalized version of the
+account label, or `cod_conta_match`, SICONFI's stable semantic account code
+(used where labels are ambiguous). For example, the federal RGPS appendix moved
+from `RREO-Anexo 04.3 - RGPS` (up to 2022) to `RREO-Anexo 04.4 - RGPS` (2023+)
+— the table knows this.
+
+Four topics are covered: `"previdencia"` (Anexos 04.x), `"rcl"` (Anexo 03,
+Receita Corrente Líquida), `"balanco"` (Anexo 01, budget balance) and
+`"resultado"` (Anexo 06, primary and nominal results, including the 2023+
+com/sem RPPS split for states and municipalities). See `help(tn.tidy_rreo)`
+for the regimes inside each one.
 
 Currently supported topic: **`"previdencia"`** (federal RGPS, RPPS civis, FCDF,
 militares inativos — União sphere). Contributions adding new topics to the

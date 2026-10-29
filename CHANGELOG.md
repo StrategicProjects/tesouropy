@@ -4,6 +4,44 @@ All notable changes to **tesouropy** are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] — 2026-10-29
+
+Parity with `tesouror` 0.3.1 and 0.3.2.
+
+### Fixed
+
+- **`get_tc_por_municipio()` / `get_tc_by_municipality()` were unusable**: the
+  Transferências Constitucionais API changed its municipal endpoint contract
+  on the server side (2026-09) — parameter names became case-sensitive lower
+  case with `p_municipio` in the singular, and responses became paginated.
+  With the old upper-case names the server ignored every filter and timed out
+  (HTTP 504) on every call. The functions now send the names the server
+  expects and fetch every page (new arguments `page_size=1000` and
+  `max_rows`); a page failing after the first returns the rows already
+  fetched with `result.partial == True`.
+- `get_tc_por_municipio_detalhe()` / `get_tc_by_municipality_detail()` keep
+  the original contract, which that endpoint still uses (upper-case names,
+  `P_MUNICIPIOS`, no pagination), now documented along with the ten-day
+  installment columns it returns.
+
+### Added
+
+- Three new `tidy_rreo()` topics, probed live against SICONFI (2015-2026,
+  all spheres): `"rcl"` (Receita Corrente Líquida, Anexo 03), `"balanco"`
+  (Balanço Orçamentário, Anexo 01) and `"resultado"` (primary and nominal
+  results, Anexo 06, across its three label eras including the 2023+
+  com/sem RPPS split).
+- The layout table gained a `cod_conta_match` column: a rule can match on
+  SICONFI's stable semantic account code instead of the free-text label,
+  which is ambiguous in Anexos 01 and 06. Topics matched on `cod_conta`
+  require that column in the input (the raw SICONFI output carries it).
+- `tidy_rreo()` matches rows only against the appendix each rule refers to
+  when the input has an `anexo` column, preventing double counting with
+  Anexo 14, which repeats accounts from other appendices under identical
+  labels.
+- New core helper `transferencias_fetch_all()` paginating `page`/`pageSize`
+  endpoints with the same fault tolerance as `ords_fetch_all()`.
+
 ## [0.2.1] — 2026-07-14
 
 ### Added

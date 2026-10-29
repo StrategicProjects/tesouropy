@@ -13,7 +13,13 @@ a Python sequence (``[1, 2, 3]``).
 
 from __future__ import annotations
 
-from ._core import check_not_uf_abbrev, collapse_param, transferencias_fetch
+from ._core import (
+    INF,
+    check_not_uf_abbrev,
+    collapse_param,
+    transferencias_fetch,
+    transferencias_fetch_all,
+)
 
 __all__ = [
     "get_tc_transferencias", "get_tc_transfer_types",
@@ -135,40 +141,55 @@ def get_tc_by_state_detail(state_code=None, year=None, month=None,
 
 def get_tc_por_municipio(p_estado=None, p_municipio=None, p_ano=None, p_mes=None,
                          p_transferencia=None, p_sn_detalhar=None, use_cache=True,
-                         verbose=False):
+                         verbose=False, page_size=1000, max_rows=INF):
     """Get constitutional transfers for municipalities within states.
 
-    Note: this endpoint expects UPPERCASE parameter names upstream; the
-    conversion is handled internally.
+    The server-side contract changed in 2026-09: parameter names are
+    case-sensitive lower case (``p_municipio`` in the singular) and the
+    response is paginated (10 rows per page by default upstream). With the
+    old upper-case names the server ignored every filter and timed out
+    (HTTP 504), so this function fetches every page with the names the
+    server expects. If a page after the first fails, the rows already
+    fetched are returned with ``result.partial == True``.
     """
     check_not_uf_abbrev(p_estado, "p_estado")
     params = {
-        "P_ESTADO": collapse_param(p_estado),
-        "P_MUNICIPIOS": collapse_param(p_municipio),
-        "P_ANO": collapse_param(p_ano),
-        "P_MES": collapse_param(p_mes),
-        "P_TRANSFERENCIA": collapse_param(p_transferencia),
-        "P_SN_DETALHAR": p_sn_detalhar,
+        "p_estado": collapse_param(p_estado),
+        "p_municipio": collapse_param(p_municipio),
+        "p_ano": collapse_param(p_ano),
+        "p_mes": collapse_param(p_mes),
+        "p_transferencia": collapse_param(p_transferencia),
+        "p_sn_detalhar": p_sn_detalhar,
     }
-    return transferencias_fetch("/por_estado_municipio", params,
-                                use_cache=use_cache, verbose=verbose)
+    return transferencias_fetch_all("/por_estado_municipio", params,
+                                    page_size=page_size, max_rows=max_rows,
+                                    use_cache=use_cache, verbose=verbose)
 
 
 def get_tc_by_municipality(state_code=None, municipality=None, year=None,
                            month=None, transfer_type=None, detailed=None,
-                           use_cache=True, verbose=False):
+                           use_cache=True, verbose=False, page_size=1000,
+                           max_rows=INF):
     """English alias for :func:`get_tc_por_municipio`."""
     return get_tc_por_municipio(p_estado=state_code, p_municipio=municipality,
                                 p_ano=year, p_mes=month,
                                 p_transferencia=transfer_type,
                                 p_sn_detalhar=detailed, use_cache=use_cache,
-                                verbose=verbose)
+                                verbose=verbose, page_size=page_size,
+                                max_rows=max_rows)
 
 
 def get_tc_por_municipio_detalhe(p_estado=None, p_municipio=None, p_ano=None,
                                  p_mes=None, p_transferencia=None, use_cache=True,
                                  verbose=False):
-    """Get detailed constitutional transfers by municipality."""
+    """Get detailed constitutional transfers by municipality.
+
+    Unlike ``/por_estado_municipio``, this endpoint kept its original
+    contract: UPPERCASE parameter names, ``P_MUNICIPIOS`` in the plural and
+    no pagination (lower-case names answer HTTP 504). It returns the three
+    ten-day installments (``va_primeiro_dec``, ``va_segundo_dec``,
+    ``va_terceiro_dec``) plus ``total``.
+    """
     check_not_uf_abbrev(p_estado, "p_estado")
     params = {
         "P_ESTADO": collapse_param(p_estado),

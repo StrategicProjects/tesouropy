@@ -685,6 +685,86 @@ def transferencias_fetch(endpoint, params=None, *, use_cache=True, verbose=False
     return result
 
 
+def transferencias_fetch_all(
+    endpoint,
+    params=None,
+    *,
+    page_size: int = 1000,
+    max_rows: float | int | None = INF,
+    use_cache: bool = True,
+    verbose: bool | None = False,
+) -> pl.DataFrame:
+    """Page a Transferencias endpoint that supports ``page``/``pageSize``.
+
+    The municipal endpoints paginate (10 rows per page by default on the
+    server). The response always carries a ``next`` link, so the stop rule is
+    the row count: a short or empty page is the last one.
+
+    Fault tolerant like :func:`ords_fetch_all`: if a page after the first
+    fails, the rows already fetched are returned with
+    ``result.partial == True`` and ``result.last_page_error`` set.
+    """
+    page_size = int(page_size)
+    if page_size < 1:
+        raise TesouroError("page_size must be a positive integer.")
+    params = dict(params or {})
+    max_rows_f = _resolve_max_rows(max_rows)
+    url = TRANSFERENCIAS_BASE_URL + endpoint
+    log.info("Fetching Transferencias%s (pages of %s)...", endpoint, page_size)
+
+    all_items: list[Mapping[str, Any]] = []
+    page = 1
+    total_rows = 0
+    partial_error: str | None = None
+    while True:
+        query = dict(params)
+        query["page"] = page
+        query["pageSize"] = page_size
+        try:
+            body = tnr_request(
+                url, query, use_cache=use_cache, api_name="Transferencias",
+                accept="*/*", verbose=verbose,
+            )
+        except TesouroError as exc:
+            if page == 1:
+                raise
+            partial_error = str(exc)
+            log.warning(
+                "Page %s failed; returning %s row(s) fetched so far.",
+                page, total_rows,
+            )
+            break
+        rows = None
+        if isinstance(body, Mapping):
+            rows = body.get("registros") or body.get("items")
+        elif isinstance(body, list):
+            rows = body
+        n = len(rows) if rows else 0
+        if n == 0:
+            break
+        all_items.extend(rows)
+        total_rows += n
+        if n < page_size or total_rows >= max_rows_f:
+            break
+        page += 1
+
+    if not all_items:
+        log.warning("No data returned for Transferencias%s.", endpoint)
+        return _empty()
+
+    result = _from_records(all_items)
+    result = _squish_strings(result)
+    result = clean_names(result)
+    if max_rows_f != INF and result.height > max_rows_f:
+        result = result.head(int(max_rows_f))
+    if partial_error is not None:
+        _attach(result, partial=True, last_page_error=partial_error)
+        log.warning("Done (PARTIAL): %s rows.", result.height)
+    else:
+        log.info("Done: %s rows in %s page(s).", result.height, page)
+    return result
+
+
 # -- SIOPE fetch (OData-style) ------------------------------------------------
 
 

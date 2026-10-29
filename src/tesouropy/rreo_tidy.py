@@ -51,6 +51,8 @@ def _load_rreo_layout() -> pl.DataFrame:
     return tbl.with_columns(
         pl.col("first_year").cast(pl.Int64),
         pl.col("last_year").cast(pl.Int64),
+        pl.col("conta_match").cast(pl.Utf8).fill_null(""),
+        pl.col("cod_conta_match").cast(pl.Utf8).fill_null(""),
     )
 
 
@@ -58,7 +60,10 @@ def rreo_layout() -> pl.DataFrame:
     """Return the bundled RREO layout reference table.
 
     Columns: ``topic``, ``regime``, ``first_year``, ``last_year``,
-    ``co_esfera``, ``no_anexo``, ``conta_match``, ``indicador``.
+    ``co_esfera``, ``no_anexo``, ``conta_match``, ``cod_conta_match``,
+    ``indicador``. Each rule matches either on a cleaned account label
+    (``conta_match``) or on SICONFI's stable semantic account code
+    (``cod_conta_match``); exactly one of the two is non-empty per row.
     """
     return _load_rreo_layout()
 
@@ -101,11 +106,30 @@ def tidy_rreo(data: pl.DataFrame, topic: str, regime=None) -> pl.DataFrame:
     Filters ``data`` (typically from :func:`tesouropy.get_rreo_ufs`) to the rows
     matching a known indicator for ``topic`` (and optionally ``regime``), using
     the rules in :func:`rreo_layout`. Accounts are matched on a year-stable,
-    accent-folded key, so the same call returns a coherent series across years
-    even when SICONFI relabelled the appendix or account.
+    accent-folded key — or, where the free-text label is ambiguous, on
+    SICONFI's stable semantic account code (``cod_conta``) — so the same call
+    returns a coherent series across years even when SICONFI relabelled the
+    appendix or account.
 
-    Currently supported topics: ``"previdencia"`` (federal RGPS / RPPS civis /
-    FCDF / militares inativos, União sphere).
+    Currently supported topics:
+
+    * ``"previdencia"`` — federal RGPS / RPPS civis / FCDF / militares
+      inativos (União sphere, Anexos 04.x).
+    * ``"rcl"`` — Receita Corrente Líquida (Anexo 03), all spheres; regimes
+      ``"total"`` (2015+) plus ``"ajustada_endividamento"`` and
+      ``"ajustada_pessoal"`` (states/municipalities, 2020+).
+    * ``"balanco"`` — Balanço Orçamentário (Anexo 01), all spheres, 2015+,
+      matched on ``cod_conta``: revenue/expenditure subtotals, current and
+      capital categories, superávit and déficit.
+    * ``"resultado"`` — primary and nominal results (Anexo 06) across the
+      three label eras (2015-2017, 2018-2022, 2023+), matched on
+      ``cod_conta``, including the 2023+ com/sem RPPS split for states and
+      municipalities. The nominal series starts in 2018.
+
+    When ``data`` carries an ``anexo`` column (the raw SICONFI output always
+    does), rows only match the rule for their own appendix — Anexo 14
+    repeats accounts from other appendices under identical labels. Topics
+    matched on ``cod_conta`` require that column in the input.
     """
     required = ("exercicio", "conta", "coluna", "valor")
     missing = [c for c in required if c not in data.columns]
@@ -126,6 +150,13 @@ def tidy_rreo(data: pl.DataFrame, topic: str, regime=None) -> pl.DataFrame:
             "inspect supported topics/regimes."
         )
 
+    uses_cod = layout["cod_conta_match"].str.len_chars().gt(0).any()
+    if uses_cod and "cod_conta" not in data.columns:
+        raise TesouroError(
+            f"Topic {topic!r} matches on cod_conta, but the input has no such "
+            "column. Pass the raw output of get_rreo_ufs(), which carries it."
+        )
+
     data = rreo_normalize_columns(data)
     data = data.with_columns(
         pl.col("conta")
@@ -133,15 +164,23 @@ def tidy_rreo(data: pl.DataFrame, topic: str, regime=None) -> pl.DataFrame:
         .alias("_match_key"),
         pl.col("exercicio").cast(pl.Int64, strict=False).alias("_exercicio"),
     )
+    has_anexo = "anexo" in data.columns
 
     matched = []
     for rule in layout.iter_rows(named=True):
-        rows = data.filter(
+        pick = (
             pl.col("_exercicio").is_not_null()
             & (pl.col("_exercicio") >= rule["first_year"])
             & (pl.col("_exercicio") <= rule["last_year"])
-            & (pl.col("_match_key") == rule["conta_match"])
         )
+        if rule["cod_conta_match"]:
+            pick = pick & (pl.col("cod_conta") == rule["cod_conta_match"])
+        else:
+            pick = pick & (pl.col("_match_key") == rule["conta_match"])
+        if has_anexo:
+            # Anexo 14 repeats accounts from other appendices, same labels
+            pick = pick & (pl.col("anexo") == rule["no_anexo"])
+        rows = data.filter(pick)
         if rows.height:
             rows = rows.with_columns(
                 pl.lit(rule["indicador"]).alias("indicador"),

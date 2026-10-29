@@ -1,8 +1,31 @@
-topic,regime,first_year,last_year,co_esfera,no_anexo,conta_match,indicador
-previdencia,civil_rpps,2015,2022,U,RREO-Anexo 04.1,resultado previdenciario rpps civis,resultado_previdenciario_civil
-previdencia,civil_rpps,2023,2099,U,RREO-Anexo 04.2,resultado previdenciario rpps civis,resultado_previdenciario_civil
-previdencia,fcdf,2015,2022,U,RREO-Anexo 04.1,resultado previdenciario - fcdf,resultado_previdenciario_fcdf
-previdencia,fcdf,2023,2099,U,RREO-Anexo 04.2,resultado previdenciario - fcdf,resultado_previdenciario_fcdf
-previdencia,militar,2015,2099,U,RREO-Anexo 04.2,resultado total - militares inativos,resultado_militares_inativos
-previdencia,rgps,2015,2022,U,RREO-Anexo 04.3 - RGPS,resultado previdenciario rgps,resultado_previdenciario_rgps
-previdencia,rgps,2023,2099,U,RREO-Anexo 04.4 - RGPS,resultado previdenciario rgps,resultado_previdenciario_rgps
+topic,regime,first_year,last_year,co_esfera,no_anexo,conta_match,cod_conta_match,indicador
+previdencia,civil_rpps,2015,2022,U,RREO-Anexo 04.1,resultado previdenciario rpps civis,,resultado_previdenciario_civil
+previdencia,civil_rpps,2023,2099,U,RREO-Anexo 04.2,resultado previdenciario rpps civis,,resultado_previdenciario_civil
+previdencia,fcdf,2015,2022,U,RREO-Anexo 04.1,resultado previdenciario - fcdf,,resultado_previdenciario_fcdf
+previdencia,fcdf,2023,2099,U,RREO-Anexo 04.2,resultado previdenciario - fcdf,,resultado_previdenciario_fcdf
+previdencia,militar,2015,2099,U,RREO-Anexo 04.2,resultado total - militares inativos,,resultado_militares_inativos
+previdencia,rgps,2015,2022,U,RREO-Anexo 04.3 - RGPS,resultado previdenciario rgps,,resultado_previdenciario_rgps
+previdencia,rgps,2023,2099,U,RREO-Anexo 04.4 - RGPS,resultado previdenciario rgps,,resultado_previdenciario_rgps
+rcl,total,2015,2099,U/E/M,RREO-Anexo 03,receita corrente liquida,,receita_corrente_liquida
+rcl,ajustada_endividamento,2020,2099,E/M,RREO-Anexo 03,receita corrente liquida ajustada para calculo dos limites de endividamento,,rcl_ajustada_endividamento
+rcl,ajustada_pessoal,2020,2099,E/M,RREO-Anexo 03,receita corrente liquida ajustada para calculo dos limites da despesa com pessoal,,rcl_ajustada_pessoal
+balanco,receitas,2015,2099,U/E/M,RREO-Anexo 01,,SubtotalDasReceitas,receitas_subtotal
+balanco,despesas,2015,2099,U/E/M,RREO-Anexo 01,,SubtotalDasDespesas,despesas_subtotal
+balanco,receitas_correntes,2015,2099,U/E/M,RREO-Anexo 01,,ReceitasCorrentes,receitas_correntes
+balanco,receitas_capital,2015,2099,U/E/M,RREO-Anexo 01,,ReceitasDeCapital,receitas_de_capital
+balanco,despesas_correntes,2015,2099,U/E/M,RREO-Anexo 01,,DespesasCorrentes,despesas_correntes
+balanco,despesas_capital,2015,2099,U/E/M,RREO-Anexo 01,,DespesasDeCapital,despesas_de_capital
+balanco,superavit,2015,2099,U/E/M,RREO-Anexo 01,,Superavit,superavit
+balanco,deficit,2015,2099,U/E/M,RREO-Anexo 01,,Deficit,deficit
+resultado,primario,2015,2017,U,RREO-Anexo 06,,RREO6ResultadoPrimarioDaUniao,resultado_primario
+resultado,primario,2015,2099,U/E/M,RREO-Anexo 06,,RREO6ResultadoPrimarioEstadosMunicipios,resultado_primario
+resultado,primario_com_rpps,2023,2099,E/M,RREO-Anexo 06,,ResultadoPrimarioComRPPSAcimaDaLinha,resultado_primario_com_rpps
+resultado,primario_sem_rpps,2023,2099,E/M,RREO-Anexo 06,,ResultadoPrimarioSemRPPSAcimaDaLinha,resultado_primario_sem_rpps
+resultado,primario_abaixo,2018,2099,U/E/M,RREO-Anexo 06,,ResultadoPrimarioAbaixoDaLinha,resultado_primario_abaixo
+resultado,primario_abaixo_sem_rpps,2023,2099,E/M,RREO-Anexo 06,,ResultadoPrimarioAbaixoDaLinhaSemRPPS,resultado_primario_abaixo_sem_rpps
+resultado,nominal,2018,2099,U/E/M,RREO-Anexo 06,,ResultadoNominalAcimaDaLinha,resultado_nominal
+resultado,nominal_sem_rpps,2023,2099,E/M,RREO-Anexo 06,,ResultadoNominalAcimaDaLinhaSemRPPS,resultado_nominal_sem_rpps
+resultado,nominal_abaixo,2018,2099,U/E/M,RREO-Anexo 06,,ResultadoNominalAbaixoDaLinha,resultado_nominal_abaixo
+resultado,nominal_abaixo_sem_rpps,2023,2099,E/M,RREO-Anexo 06,,ResultadoNominalAbaixoDaLinhaSemRPPS,resultado_nominal_abaixo_sem_rpps
+resultado,nominal_ajustado,2018,2099,U/E/M,RREO-Anexo 06,,ResultadoNominalAjustado,resultado_nominal_ajustado
+resultado,nominal_ajustado_sem_rpps,2023,2099,E/M,RREO-Anexo 06,,ResultadoNominalAbaixoDaLinhaSemRPPSAjustado,resultado_nominal_ajustado_sem_rpps

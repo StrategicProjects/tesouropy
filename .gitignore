@@ -22,3 +22,4 @@ CLAUDE.md
 
 # MkDocs build output
 site/
+uv.lock
